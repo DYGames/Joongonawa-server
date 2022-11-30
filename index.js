@@ -88,6 +88,13 @@ app.post("/product", function (req, res) {
    });
 });
 
+app.get("/tradeHistory", function (req, res) {
+   connection.query(`select * from tradeHistory`, (err, results, fields) => {
+      if (err) res.json({ error: err });
+      else res.json({ data: results });
+   })
+});
+
 app.get("/public/:filename", function (req, res) {
    const file = `${__dirname}/public/${req.params.filename}`;
    res.download(file);
