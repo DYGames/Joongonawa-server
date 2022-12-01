@@ -42,14 +42,14 @@ app.get("/", function (req, res) {
 app.get("/login", function (req, res) {
    connection.query(`select nickname from user where id like '${req.query.id}' and password like '${req.query.password}'`, (err, results, fields) => {
       if (err) res.json({ error: err });
-      else res.json({ data: results });
+      else res.status(results.length == 1 ? 200 : 201).json({ data: results });
    });
 });
 
 app.post("/signup", function (req, res) {
    connection.query(`insert into user values('${req.body.id}', '${req.body.nickname}', '${req.body.password}')`, (err, results, fields) => {
-      if (err) res.json({ error: err })
-      else res.json({ data: results })
+      if (err) res.status(201).json({ error: err })
+      else res.status(200).json({ data: results })
    });
 });
 
@@ -58,6 +58,13 @@ app.get("/category", function (req, res) {
       if (err) res.json({ error: err })
       else res.json({ data: results })
    });
+});
+
+app.post("/category", function (req, res) {
+	connection.query(`insert into category(pic, name) values('${req.body.pic}', '${req.body.name}')`, (err, results, fields) => {
+		if (err) res.json({ error : err })
+		else res.json({ data: results })
+	});
 });
 
 app.get("/productTypeList", function (req, res) {
