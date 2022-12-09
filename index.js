@@ -117,11 +117,9 @@ app.get('/product', function (req, res) {
 });
 
 app.post('/product', function (req, res) {
-	console.log(req.body.type);
 	connection.query(
 		`select * from productType where name like '${req.body.type}'`,
 		(err, results, fields) => {
-			console.log(results);
 			if (err) res.status(201).json({ error: err });
 			else if (results.length == 1) {
 				connection.query(
@@ -137,7 +135,6 @@ app.post('/product', function (req, res) {
 					(err1, results1, fields1) => {
 						if (err1) res.json({ error: err1 });
 						else {
-							console.log(results1)
 							connection.query(
 								`select * from productType where name like '${req.body.type}'`,
 								(err2, results2, fields2) => {
